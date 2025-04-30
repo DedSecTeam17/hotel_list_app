@@ -1,0 +1,40 @@
+name: Flutter CI (iOS) - Self Hosted
+
+on:
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  flutter-ios-ci:
+    runs-on: self-hosted
+    timeout-minutes: 30
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.0'  # Replace with your Flutter version
+
+      - name: 📦 Install Dependencies
+        run: flutter pub get
+
+      - name: 🧪 Run Unit & Widget Tests
+        run: flutter test
+
+      - name: 🧪 Run Integration Tests
+        run: flutter test integration_test
+
+      - name: 🏗️ Build iOS App (debug, no code signing)
+        run: flutter build ios --debug --no-codesign
+
+      - name: ✅ Verify iOS Build Output
+        run: |
+          if [ ! -d "build/ios/iphoneos/Runner.app" ]; then
+            echo "❌ iOS build failed!"
+            exit 1
+          else
+            echo "✅ iOS build succeeded"
+          fi
