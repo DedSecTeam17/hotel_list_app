@@ -1,0 +1,40 @@
+name: Manual Flutter iOS Build & Test
+
+on:
+  workflow_dispatch:  # 🔥 This enables manual trigger from GitHub UI
+
+jobs:
+  flutter-ios:
+    runs-on: self-hosted  # Your local Mac runner
+
+    steps:
+      - name: 🧾 Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.0'  # Replace with your actual Flutter version
+
+      - name: 📦 Install Dependencies
+        run: flutter pub get
+
+      - name: 🔍 Analyze Code
+        run: flutter analyze
+
+      - name: 🧪 Run Unit & Widget Tests
+        run: flutter test
+
+      - name: 🧪 Run Integration Tests
+        run: flutter test integration_test
+
+      - name: 🏗️ Build iOS App (no signing)
+        run: flutter build ios --debug --no-codesign
+
+      - name: ✅ Validate Build Output
+        run: |
+          if [ ! -d "build/ios/iphoneos/Runner.app" ]; then
+            echo "❌ iOS build failed"
+            exit 1
+          fi
+          echo "✅ iOS build succeeded"
