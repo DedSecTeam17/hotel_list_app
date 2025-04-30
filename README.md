@@ -29,12 +29,9 @@ This approach makes the app resilient to changes, easier to onboard other develo
 
 ## 📐 Project Architecture
 
-This project follows a layered **Clean Architecture** approach: 
-
-![enter image description here](https://github-production-user-asset-6210df.s3.amazonaws.com/34925145/439181207-084249ea-5585-4153-98c2-351202d795c8.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA/20250430/us-east-1/s3/aws4_request&X-Amz-Date=20250430T100809Z&X-Amz-Expires=300&X-Amz-Signature=1d4482235396e9c29a30da3caff553d4dbbbc3404fb862762d4c3d40e80b04b5&X-Amz-SignedHeaders=host)
-
+This project follows a layered **Clean Architecture** approach:
 ### 🔁 Data Flow Overview
-  ```mermaid
+```bash
 graph TD  
     subgraph Presentation  
         UI[Widgets/Pages] --> VM[ViewModel]  
